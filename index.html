@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr. Fox Da Liễu — Hệ Thống Học & Ôn Tập Lâm Sàng</title>
+  <link rel="icon" type="image/png" href="assets/mascot/dr_fox_teaching.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- Floating Restore Button when in Zen Fullscreen Mode -->
+  <button class="zen-restore-btn" onclick="window.toggleZenMode()" title="Hiện lại thanh điều hướng (Phím tắt: Esc)">
+    <span>🦊 Hiện thanh điều hướng</span>
+  </button>
+
+  <!-- DYNAMIC TOP NAVIGATION BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="btn-sidebar-toggle" onclick="window.toggleSidebar()" title="Thu gọn / Mở rộng danh mục bài giảng">
+        ☰
+      </button>
+
+      <!-- Clean Brand Logo + Hover Info Popover -->
+      <div class="brand-logo-wrap">
+        <div class="brand-logo" onclick="window.switchMode('dashboard')">
+          <img class="brand-mascot-avatar" src="assets/mascot/dr_fox_teaching.png" alt="Dr. Fox Mascot" />
+          <span class="brand-title-clean">Dr. Fox Da Liễu</span>
+        </div>
+
+        <!-- Hidden by default; appears smoothly on mouse hover -->
+        <div class="brand-hover-card">
+          <div class="brand-hover-header">
+            <img src="assets/mascot/dr_fox_tip.png" alt="Dr. Fox" />
+            <div>
+              <div class="brand-hover-title">Hệ Thống Học &amp; Ôn Tập Da Liễu</div>
+              <div class="brand-hover-badge">Chương trình Y5 &amp; Sau đại học (BSNT, CKI, CKII)</div>
+            </div>
+          </div>
+          <div class="brand-hover-body">
+            <div>🏛️ <strong>Đơn vị:</strong> Bộ môn Da liễu – ĐH Khoa học Sức khỏe, ĐHQG-HCM &amp; BV Da Liễu TP.HCM</div>
+            <div>📚 <strong>Học liệu:</strong> 9 Chuyên đề • 411 Slide gốc • 429 Ảnh lâm sàng • 254 Flashcards</div>
+            <div style="margin-top:4px;font-size:0.72rem;color:var(--primary);font-weight:700;">👆 Bấm vào logo để về Trang Tổng Quan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Mode Switcher with clean spacing between buttons & Theme-Synced Scroll Arrows -->
+    <div class="mode-nav-wrapper" id="mode-nav-wrapper">
+      <button class="mode-nav-arrow mode-nav-arrow-left" id="mode-nav-left" onclick="window.scrollModeNav(-1)" title="Trượt thanh điều hướng sang trái">
+        &#10094;
+      </button>
+      <nav class="mode-nav" id="mode-nav" aria-label="Chế độ học tập" onscroll="window.updateModeNavArrows && window.updateModeNavArrows()">
+        <button class="mode-btn" data-mode="dashboard" onclick="window.switchMode('dashboard')" title="Bảng điều khiển & Tổng quan 9 chuyên đề">
+          <span>🏠</span>
+          <span class="mode-label">Tổng quan</span>
+        </button>
+        <button class="mode-btn active" data-mode="classroom" onclick="window.switchMode('classroom')" title="Phòng học ảo từng Slide cùng Bác sĩ Cáo">
+          <span>🦊</span>
+          <span class="mode-label">Phòng học Dr. Fox</span>
+          <span class="mode-count-pill">411</span>
+        </button>
+        <button class="mode-btn" data-mode="reader" onclick="window.switchMode('reader')" title="Đọc giáo trình chuyên sâu toàn văn">
+          <span>📖</span>
+          <span class="mode-label">Giáo trình</span>
+        </button>
+        <button class="mode-btn" data-mode="flashcards" onclick="window.switchMode('flashcards')" title="Luyện tập 254 thẻ Flashcard lật 3D">
+          <span>🗂️</span>
+          <span class="mode-label">Flashcard</span>
+          <span class="mode-count-pill">254</span>
+        </button>
+        <button class="mode-btn" data-mode="quiz" onclick="window.switchMode('quiz')" title="Phòng Ôn tập Trắc nghiệm Tức thì, Thi thử tính giờ & Ngân hàng 270 câu hỏi">
+          <span>📝</span>
+          <span class="mode-label">Trắc nghiệm</span>
+          <span class="mode-count-pill">270</span>
+        </button>
+        <button class="mode-btn" data-mode="cases" onclick="window.switchMode('cases')" title="27 Tình huống lâm sàng & 90 Nguyên lý vàng">
+          <span>🩺</span>
+          <span class="mode-label">Ca lâm sàng</span>
+          <span class="mode-count-pill">27</span>
+        </button>
+        <button class="mode-btn" data-mode="search" onclick="window.switchMode('search')" title="Tra cứu nhanh, Atlas 429 ảnh & Sổ tay">
+          <span>🔍</span>
+          <span class="mode-label">Tra cứu &amp; Atlas</span>
+          <span class="mode-count-pill">429</span>
+        </button>
+      </nav>
+      <button class="mode-nav-arrow mode-nav-arrow-right" id="mode-nav-right" onclick="window.scrollModeNav(1)" title="Trượt thanh điều hướng sang phải">
+        &#10095;
+      </button>
+    </div>
+
+    <!-- Right Compact Controls + Mini Theme Popover -->
+    <div class="topbar-right">
+      <div class="theme-popover-container" id="theme-popover-container">
+        <button class="tool-btn btn-theme-trigger" id="btn-theme-trigger" onclick="window.toggleThemePopover(event)" title="Mở ô tùy chỉnh Giao diện, Bảng màu Color Hunt & Cỡ chữ ngay tại đây">
+          <span>🎨</span>
+          <span class="btn-label">Giao diện</span>
+          <span id="active-palette-swatches" class="mini-swatch-group"></span>
+        </button>
+
+        <!-- MINI FLOATING THEME & FONT POPOVER (Opens inline on current screen) -->
+        <div id="theme-mini-popover" class="theme-mini-popover" onclick="event.stopPropagation()">
+          <div class="popover-header">
+            <span class="popover-title">🎨 Tùy chỉnh Giao diện &amp; Hiển thị</span>
+            <button class="popover-close-btn" onclick="window.closeThemePopover()">✕</button>
+          </div>
+
+          <!-- Section 1: Dark Mode & Font Size -->
+          <div class="popover-section">
+            <div class="popover-row">
+              <span class="popover-label">Chế độ nền:</span>
+              <button id="btn-dark-mode" class="popover-action-btn" onclick="window.ThemeEngine.toggleDarkMode()">
+                <span class="nav-icon">🌙</span>
+                <span class="btn-label">Chế độ Tối</span>
+              </button>
+            </div>
+            <div class="popover-row" style="margin-top:10px;">
+              <span class="popover-label">Cỡ chữ bài giảng:</span>
+              <div class="font-size-control-group">
+                <button class="font-ctrl-btn" onclick="window.ThemeEngine.changeFontSize(-1)" title="Giảm cỡ chữ">A-</button>
+                <span id="popover-font-size-val" class="font-size-val">16px</span>
+                <button class="font-ctrl-btn" onclick="window.ThemeEngine.changeFontSize(1)" title="Tăng cỡ chữ">A+</button>
+                <button class="font-ctrl-btn font-reset-btn" onclick="window.ThemeEngine.resetFontSize()" title="Về cỡ chữ chuẩn 16px">Chuẩn</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Random Color Hunt Button -->
+          <div class="popover-section">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <span class="popover-label">Bảng màu Color Hunt:</span>
+              <button class="btn-random-hunt-mini" onclick="window.ThemeEngine.randomize()">
+                🎲 Đổi màu ngẫu nhiên
+              </button>
+            </div>
+            <div id="popover-palette-grid" class="popover-palette-grid">
+              <!-- Populated by js/themes.js -->
+            </div>
+          </div>
+
+          <!-- Section 3: Custom Color Pickers -->
+          <div class="popover-section" style="border-bottom:none;padding-bottom:2px;">
+            <div class="popover-row">
+              <span class="popover-label">Tự chọn màu:</span>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <label class="mini-color-label" title="Màu chủ đạo">
+                  <span>Chính</span>
+                  <input type="color" id="mini-custom-primary" value="#0d9488" onchange="window.applyMiniCustomColors()" />
+                </label>
+                <label class="mini-color-label" title="Màu nhấn">
+                  <span>Nhấn</span>
+                  <input type="color" id="mini-custom-accent" value="#0284c7" onchange="window.applyMiniCustomColors()" />
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="tool-btn" onclick="window.toggleZenMode()" title="Thu gọn thanh điều hướng để tập trung đọc 100% màn hình (Zen Mode)">
+        <span>🧘</span>
+        <span class="btn-label">Thu gọn</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN APPLICATION LAYOUT -->
+  <div class="app-layout">
+
+    <!-- DYNAMIC COLLAPSIBLE LEFT SIDEBAR -->
+    <aside class="sidebar" aria-label="Danh mục 9 chuyên đề bài giảng">
+      <div class="sidebar-progress-box">
+        <div class="progress-row">
+          <span>📈 Tiến độ toàn khóa</span>
+          <span id="global-progress-pct" style="color:var(--primary)">0%</span>
+        </div>
+        <div class="progress-track">
+          <div id="global-progress-fill" class="progress-fill" style="width:0%"></div>
+        </div>
+        <div id="global-progress-sub" style="font-size:0.71rem;color:var(--text-muted);margin-top:5px;">
+          0 / 239 đơn vị bài giảng đã học
+        </div>
+      </div>
+
+      <div id="sidebar-lecture-list" class="lecture-nav-list">
+        <!-- Populated dynamically by js/app.js -->
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-text" style="font-size:0.72rem;color:var(--text-muted);">
+          <div>✅ <strong>Giai đoạn 1:</strong> Bài giảng &amp; Flashcard</div>
+          <div style="color:var(--primary);font-weight:700;">✅ <strong>Giai đoạn 2:</strong> Trắc nghiệm (270 câu)</div>
+        </div>
+        <button class="btn-sidebar-toggle" style="width:32px;height:32px;font-size:0.85rem;" onclick="window.toggleSidebar()" title="Thu gọn / Mở rộng thanh bên">
+          ⇄
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN DYNAMIC WORKSPACE -->
+    <main id="main-workspace" class="main-workspace">
+      <!-- Rendered dynamically by js/app.js -->
+    </main>
+
+  </div>
+
+  <!-- FLOATING DR. FOX PEEKING COMPANION WIDGET -->
+  <div class="dr-fox-peeking-widget">
+    <div id="peeking-fox-bubble" class="peeking-bubble">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <strong style="font-size:0.76rem;color:var(--primary);">🦊 Bác sĩ Cáo nhắn nhủ:</strong>
+        <button onclick="document.getElementById('peeking-fox-bubble').classList.remove('visible')" style="border:none;background:transparent;cursor:pointer;color:var(--text-muted);font-weight:800;">✕</button>
+      </div>
+      <div id="peeking-fox-text">Bấm vào mình bất cứ lúc nào để nhận một mẹo lâm sàng Da liễu siêu tốc nhé!</div>
+      <div style="margin-top:8px;display:flex;justify-content:flex-end;">
+        <button class="btn-secondary" style="padding:3px 8px;font-size:0.72rem;" onclick="window.triggerFoxEncourage()">🎲 Mẹo khác</button>
+      </div>
+    </div>
+    <button class="peeking-avatar-btn" onclick="window.togglePeekingFox()" title="Bấm vào Bác sĩ Cáo để nhận mẹo lâm sàng ngẫu nhiên!">
+      <img src="assets/mascot/dr_fox_peeking.png" alt="Dr. Fox Peeking" />
+    </button>
+  </div>
+
+  <!-- IN-PAGE MINI PDF SLIDE VIEWER MODAL (No need to leave current screen) -->
+  <div id="pdf-viewer-modal" class="lightbox-overlay" onclick="if(event.target===this) window.closePdfModal()">
+    <div style="display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1180px;margin-bottom:10px;color:#fff;">
+      <div id="pdf-modal-title" style="font-weight:800;font-size:0.96rem;">📄 Slide PDF Bài Giảng Gốc</div>
+      <div style="display:flex;gap:8px;">
+        <a id="pdf-modal-newtab" href="#" target="_blank" class="btn-secondary" style="text-decoration:none;padding:6px 12px;font-size:0.8rem;">↗ Mở rộng sang Tab mới</a>
+        <button class="btn-primary" style="background:#ef4444;padding:6px 14px;" onclick="window.closePdfModal()">✕ Đóng (Esc)</button>
+      </div>
+    </div>
+    <div style="width:94vw;max-width:1180px;height:82vh;background:#1e293b;border-radius:14px;overflow:hidden;border:2px solid rgba(255,255,255,0.15);">
+      <iframe id="pdf-modal-iframe" src="" style="width:100%;height:100%;border:none;"></iframe>
+    </div>
+  </div>
+
+  <!-- MEDICAL LIGHTBOX IMAGE ZOOM VIEWER -->
+  <div id="lightbox-modal" class="lightbox-overlay" onclick="if(event.target===this) window.closeLightbox()">
+    <div style="display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1100px;margin-bottom:12px;color:#fff;">
+      <div id="lightbox-caption" style="font-weight:700;font-size:0.95rem;">Hình ảnh lâm sàng Da liễu</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-secondary" onclick="window.zoomLightbox(-0.25)">🔍 Thu nhỏ</button>
+        <button class="btn-secondary" onclick="window.zoomLightbox(0.25)">🔍 Phóng to</button>
+        <button class="btn-primary" style="background:#ef4444;" onclick="window.closeLightbox()">✕ Đóng (Esc)</button>
+      </div>
+    </div>
+    <div class="lightbox-img-container">
+      <img id="lightbox-img" src="" alt="Clinical Zoom" />
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast-notification" class="toast-notification"></div>
+
+  <!-- SCRIPTS -->
+  <script src="markdown/atlas_pack_1.js"></script>
+  <script src="markdown/atlas_pack_2.js"></script>
+  <script src="markdown/atlas_pack_3.js"></script>
+  <script src="js/lectures-data.js"></script>
+  <script src="js/quiz-data.js"></script>
+  <script src="js/markdown-renderer.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/quiz-engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
